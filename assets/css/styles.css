@@ -383,37 +383,37 @@ body {
 .hero-slide-bg-1 {
     background-image:
         linear-gradient(135deg, rgba(5, 27, 19, 0.45), rgba(12, 71, 51, 0.8)),
-        url("../images/Cctv installation.png");
+        url("../Images/Cctv installation.png");
 }
 
 .hero-slide-bg-2 {
     background-image:
         linear-gradient(135deg, rgba(5, 27, 19, 0.45), rgba(12, 71, 51, 0.88)),
-        url("../images/attendance machine.jpg");
+        url("../Images/attendance machine.jpg");
 }
 
 .hero-slide-bg-3 {
     background-image:
         linear-gradient(135deg, rgba(5, 27, 19, 0.45), rgba(12, 71, 51, 0.9)),
-        url("../images/Door Lock.jpg");
+        url("../Images/Door Lock.jpg");
 }
 
 .hero-slide-bg-4 {
     background-image:
         linear-gradient(135deg, rgba(5, 27, 19, 0.45), rgba(12, 71, 51, 0.9)),
-        url("../images/Fire Alarm System installation.jpg");
+        url("../Images/Fire Alarm System installation.jpg");
 }
 
 .hero-slide-bg-5 {
     background-image:
         linear-gradient(135deg, rgba(5, 27, 19, 0.45), rgba(12, 71, 51, 0.9)),
-        url("../images/Solar Panel Systems.jpg");
+        url("../Images/Solar Panel Systems.jpg");
 }
 
 .hero-slide-bg-6 {
     background-image:
         linear-gradient(135deg, rgba(5, 27, 19, 0.45), rgba(12, 71, 51, 0.9)),
-        url("../images/CCTV Repair, Upgrades.jpg");
+        url("../Images/CCTV Repair, Upgrades.jpg");
 }
 
 .hero-overlay {
