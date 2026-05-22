@@ -111,11 +111,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const location = document.getElementById('location').value;
             const message = document.getElementById('message').value;
             
-            // Create WhatsApp message
-            let whatsappMessage = `Hello! I need CCTV services.\n\n`;
+            const serviceSelect = document.getElementById('service');
+            const serviceLabel = serviceSelect && serviceSelect.value
+                ? serviceSelect.options[serviceSelect.selectedIndex].text
+                : '';
+
+            let whatsappMessage = `Hello Hadi CCTV! I would like a free quote.\n\n`;
             whatsappMessage += `Name: ${name}\n`;
             whatsappMessage += `Phone: ${phone}\n`;
-            if (service) whatsappMessage += `Service: ${service}\n`;
+            if (serviceLabel) whatsappMessage += `Service: ${serviceLabel}\n`;
             if (location) whatsappMessage += `Location: ${location}\n`;
             whatsappMessage += `Message: ${message}`;
             
@@ -184,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.service-card, .project-card, .feature-item, .testimonial-card, .camera-type-card, .why-item, .solution-card, .solution-pill, .feature-benefit-card, .service-area-column, [data-animate]').forEach(el => {
+    document.querySelectorAll('.service-card, .project-card, .project-card-premium, .feature-item, .testimonial-card, .testimonial-card-premium, .camera-type-card, .why-item, .why-choose-header, .solution-card, .solution-pill, .solutions-header, .solutions-column, .feature-benefit-card, .features-benefits-header, .service-area-column, .area-group, .service-areas-header, .service-areas-footer, .services-filter-bar, .services-cta-banner, .testimonials-premium-header, .testimonials-rating-panel-wrap, .testimonials-premium-grid, .testimonials-premium-cta, .faq-premium-sidebar, .faq-accordion, .about-hero-premium-inner, .about-hero-stats, .about-intro-premium-text, .about-intro-premium-visual, .about-mv-card, .about-svc-card, .about-why-card, .about-stat-item, .about-project-card, .about-area-col, .about-value-item, .about-team-card, .about-cta-inner, .about-section-header, .services-hero-inner, .projects-hero-inner, .projects-intro, .projects-featured-locations, .projects-expertise-card, .projects-areas-group, .projects-areas-note, .contact-hero-inner, .contact-quick-card, .contact-main-header, .contact-info-card, .contact-areas-box, .contact-social-box, .contact-premium-form-wrap, .contact-trust-item, .contact-map-header, .contact-map-frame, .sp-details-header, .sp-detail-item, [data-animate]').forEach(el => {
         const animationType = el.getAttribute('data-animate') || 'fade-up';
         el.classList.add('will-animate', `anim-${animationType}`);
         observer.observe(el);
@@ -229,25 +233,112 @@ document.addEventListener('DOMContentLoaded', function() {
         counterObserver.observe(el);
     });
 
-    // FAQ Accordion Functionality
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
-            question.addEventListener('click', function() {
-                const isActive = item.classList.contains('active');
-                
-                // Close all FAQ items
-                faqItems.forEach(faqItem => {
-                    faqItem.classList.remove('active');
-                });
-                
-                // Open clicked item if it wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
+    // Services section category filter (homepage + services page)
+    const serviceCards = document.querySelectorAll('#servicesGrid .service-card');
+    const serviceDetailItems = document.querySelectorAll('#servicesDetailsList .sp-detail-item');
+
+    function applyServiceFilter(filter) {
+        const toggleItems = (items) => {
+            items.forEach(item => {
+                const category = item.getAttribute('data-category');
+                const show = filter === 'all' || category === filter;
+                item.classList.remove('is-hidden', 'is-filtering');
+                if (!show) {
+                    item.classList.add('is-hidden');
+                } else if (!item.classList.contains('animate-in')) {
+                    item.classList.add('will-animate', 'anim-fade-up');
+                    requestAnimationFrame(() => item.classList.add('animate-in'));
                 }
             });
+        };
+        if (serviceCards.length) toggleItems(serviceCards);
+        if (serviceDetailItems.length) toggleItems(serviceDetailItems);
+    }
+
+    const servicesFilterBar = document.querySelector('#services-overview .services-filter-bar, .services-showcase .services-filter-bar:not(.projects-filter-bar)');
+    const scopedServiceFilterBtns = servicesFilterBar ? servicesFilterBar.querySelectorAll('.services-filter-btn') : [];
+
+    if (scopedServiceFilterBtns.length && (serviceCards.length || serviceDetailItems.length)) {
+        scopedServiceFilterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                scopedServiceFilterBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                applyServiceFilter(filter);
+            });
+        });
+    }
+
+    // Projects page category filter
+    const projectsFilterBar = document.querySelector('.projects-filter-bar');
+    const projectCards = document.querySelectorAll('#projectsGrid .project-card-premium');
+
+    function applyProjectFilter(filter) {
+        projectCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            const show = filter === 'all' || category === filter;
+            card.classList.remove('is-hidden');
+            if (!show) {
+                card.classList.add('is-hidden');
+            } else if (!card.classList.contains('animate-in')) {
+                card.classList.add('will-animate', 'anim-fade-up');
+                requestAnimationFrame(() => card.classList.add('animate-in'));
+            }
+        });
+    }
+
+    if (projectsFilterBar && projectCards.length) {
+        const projectFilterBtns = projectsFilterBar.querySelectorAll('.services-filter-btn');
+        projectFilterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                projectFilterBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                applyProjectFilter(filter);
+            });
+        });
+    }
+
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-premium .faq-item');
+
+    function setFaqOpen(item, open) {
+        const answer = item.querySelector('.faq-answer');
+        const btn = item.querySelector('.faq-question');
+        if (!answer) return;
+
+        if (open) {
+            item.classList.add('active');
+            if (btn) btn.setAttribute('aria-expanded', 'true');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        } else {
+            item.classList.remove('active');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+            answer.style.maxHeight = '0';
         }
+    }
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (!question) return;
+
+        question.addEventListener('click', function() {
+            const isActive = item.classList.contains('active');
+
+            faqItems.forEach(faqItem => setFaqOpen(faqItem, false));
+
+            if (!isActive) {
+                setFaqOpen(item, true);
+            }
+        });
     });
 });
 
