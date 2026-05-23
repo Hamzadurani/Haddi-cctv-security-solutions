@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Hadi CCTV">
+  <rect width="32" height="32" rx="7" fill="#0c4733"/>
+  <path fill="#19a164" d="M16 5.5 23.5 9.5V15c0 4.8-3.2 9.2-7.5 10-4.3-.8-7.5-5.2-7.5-10V9.5L16 5.5z"/>
+  <circle cx="16" cy="14.5" r="2.8" fill="#ffffff"/>
+  <circle cx="16" cy="14.5" r="1.2" fill="#0c4733"/>
+</svg>
